@@ -14,12 +14,12 @@ def parse_email():
     sheet = Sheets()
     print(repr(body))
 
-    if "You paid" in subject:
-        description = extract("(?<=\) \\n \\n)(.*)(?= \\n \ T)", body)
-        amount = extract("(?<=\- \$)(.*)(?= \\n     \\n  L)", body)
-        category = assign_cat_venmo(description)
-        method = "Vemno"
-        sheet.add_expense(amount, description, category, method)
+    if "Constancia de CONSUMO Tarjeta" in subject:
+        description = extract("(por el monto de )(.*)( Soles en )(\w*)", body)[4]
+        amount = extract("(por el monto de )(.*)( Soles en )(\w*)", body)[2]
+        # category = assign_cat_venmo(description)
+        # method = "Vemno"
+        sheet.add_expense(amount, description, 'COMPRAS', 'VISA')
 
     elif "charge request" in subject:
         description = extract("(?<=\-5\) \\n \\n)(.*)(?= \\n  T)", body)
